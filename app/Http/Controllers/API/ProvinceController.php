@@ -17,10 +17,20 @@ class ProvinceController extends Controller
     }
 
     public function getProvince(Request $request) {
+        $searchDataMethod = config('rajaongkir.search_data_method');
 
-        if($request->has('id')) {
-            return $this->provinceRepo->getById($request->id);
+        if($searchDataMethod == 'database') {
+            if($request->has('id')) {
+                return $this->provinceRepo->getById($request->id);
+            }
         }
+        elseif ($searchDataMethod == 'api') {
+            if($request->has('id')) {
+                return json_encode(RajaOngkir::province($request->id));
+            }
+        }
+
+
         return null;
 
     }

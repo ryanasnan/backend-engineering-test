@@ -17,10 +17,19 @@ class CityController extends Controller
     }
 
     public function getCity(Request $request) {
+        $searchDataMethod = config('rajaongkir.search_data_method');
 
-        if($request->has('id')) {
-            return $this->cityRepo->getById($request->id);
+        if($searchDataMethod == 'database') {
+            if($request->has('id')) {
+                return $this->cityRepo->getById($request->id);
+            }
         }
+        elseif ($searchDataMethod == 'api') {
+            if($request->has('id')) {
+                return json_encode(RajaOngkir::city($request->id));
+            }
+        }
+
         return null;
 
     }
